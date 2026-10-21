@@ -17,11 +17,13 @@ QUICK START (desktop app, no browser window)
 6. Close the window when you are done.
 
 INSTALL AS SHORTCUTS (desktop icon + Start menu)
-1. Put install.bat next to PhonePreview.exe and double-click it.
-2. It copies the exe to %LOCALAPPDATA%\PhonePreview and creates:
-   - Desktop shortcut:   "Phone Preview"
-   - Start menu entry:   "Phone Preview"
-3. Double-click the desktop icon any time — that is the whole app.
+1. Put install.bat + install.ps1 next to PhonePreview.exe and double-click
+   install.bat.
+2. A small install window opens with checkboxes:
+   [x] Create a desktop shortcut
+   [x] Add to Start Menu
+   Tick or untick what you want, then click Install.
+3. The exe is copied to %LOCALAPPDATA%\PhonePreview.
 4. To remove: double-click uninstall.bat (or delete the shortcuts).
 
 FILES
