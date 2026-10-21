@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102018">
+  <title>Phone Preview Tool</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="qrcode.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div class="eyebrow">LOCAL NETWORK HELPER</div>
+      <h1>Phone Preview Tool</h1>
+      <p>Open a website running on your Windows PC from your phone on the same Wi-Fi.</p>
+    </header>
+
+    <section class="card">
+      <h2><span class="step">1</span> Detect your PC's IP and running website</h2>
+      <p class="muted">Press one button: it finds this PC's Wi-Fi address, checks common website ports, verifies the site answers, and builds the QR code. It only tests this PC, so it cannot see other devices.</p>
+      <p class="muted"><b>Tip:</b> if you started this page with <code>PhonePreview.exe</code> or <code>start.bat</code>, the PC IPv4 is already detected — just press Detect.</p>
+      <div class="detect-row">
+        <button id="detectBtn" class="primary">Detect server (one click)</button>
+        <p id="detectStatus" class="detect-status" role="status">Fills the IP and port below, then verifies the website answers.</p>
+      </div>
+      <h3>Manual fallback</h3>
+      <p class="muted">If detection cannot find the address (some browsers hide it), use the Windows command below.</p>
+      <div class="command">
+        <code id="ipCommand">ipconfig</code>
+        <button class="secondary copy" data-copy="ipCommand">Copy</button>
+      </div>
+      <ol class="instructions">
+        <li>Open <b>Command Prompt</b> or PowerShell on the PC.</li>
+        <li>Run <code>ipconfig</code>.</li>
+        <li>Under the active <b>Wi-Fi adapter</b>, find <b>IPv4 Address</b>, e.g. <code>192.168.1.5</code>.</li>
+        <li>Enter that address below. Do not enter <code>127.0.0.1</code> or <code>localhost</code>.</li>
+      </ol>
+      <label for="ipInput">PC IPv4 address</label>
+      <input id="ipInput" autocomplete="off" inputmode="decimal" placeholder="192.168.1.5">
+      <p id="ipError" class="error" role="status"></p>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">2</span> Set the website port</h2>
+      <p class="muted">Detection fills this automatically. Change it only if the website uses a different port (for the example site, use 8080).</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="portInput">Website port</label>
+          <input id="portInput" type="number" min="1" max="65535" value="8080" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="pathInput">Optional path</label>
+          <input id="pathInput" placeholder="/" value="/" autocomplete="off">
+        </div>
+      </div>
+      <div class="result">
+        <div class="result-label">Phone URL</div>
+        <div id="finalUrl" class="url">Enter your PC IP address above</div>
+        <div class="actions">
+          <button id="copyUrl" class="primary">Copy URL</button>
+          <button id="openUrl" class="secondary">Open on this PC</button>
+        </div>
+      </div>
+      <div class="qr-layout">
+        <div class="qr-frame"><canvas id="qrCanvas" width="220" height="220" aria-label="QR code"></canvas></div>
+        <div>
+          <h3>Scan to open on your phone</h3>
+          <p class="muted">Connect the phone to the same Wi-Fi, then scan this QR code with its camera.</p>
+          <p id="qrStatus" class="muted" role="status">QR code will appear after you enter a valid IP.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">3</span> Start the website so your phone can reach it</h2>
+      <p><b>Easiest (no typing):</b> drag your website folder onto <code>PhonePreview.exe</code> (or <code>start.bat</code> if you have Python). The server starts on your PC's IPv4 address, the browser opens by itself, and Detect works in one click.</p>
+      <p><b>Manual option:</b> in the terminal, stop the old server with <kbd>Ctrl</kbd> + <kbd>C</kbd>, then restart it from the website's folder:</p>
+      <div class="command">
+        <code id="serverCommand">python -m http.server 8080 --bind 0.0.0.0</code>
+        <button class="secondary copy" data-copy="serverCommand">Copy</button>
+      </div>
+      <p class="muted">Run this command in the folder containing the website's <code>index.html</code>. Keep the terminal open while testing. With this manual server, if Detect shows a <code>.local</code> warning, prefer <code>PhonePreview.exe</code> / <code>start.bat</code> so the IPv4 is detected automatically.</p>
+      <div class="notice"><b>Important:</b> if the website already uses port 8080, do not start another server on the same port. Stop the existing server first, then restart it with <code>--bind 0.0.0.0</code>.</div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">4</span> If Windows Firewall blocks it</h2>
+      <p class="muted">Try the URL first. The first time the server runs, Windows may ask for network access — click <b>Allow access</b> and keep <b>Private networks</b> checked. Only if the phone still cannot connect, open <b>PowerShell as Administrator</b> and run this command:</p>
+      <div class="command">
+        <code id="firewallCommand">New-NetFirewallRule -DisplayName "Phone Preview TCP 8080" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow -Profile Private</code>
+        <button class="secondary copy" data-copy="firewallCommand">Copy</button>
+      </div>
+      <p class="muted">This adds an inbound rule for port 8080 on Private networks. To remove it later, run:</p>
+      <div class="command">
+        <code id="removeFirewallCommand">Remove-NetFirewallRule -DisplayName "Phone Preview TCP 8080"</code>
+        <button class="secondary copy" data-copy="removeFirewallCommand">Copy</button>
+      </div>
+      <p class="notice warning">Only allow access on a trusted private network. Do not create a public tunnel unless you understand that it can expose your website to the internet.</p>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">5</span> Quick troubleshooting</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> PC and phone are on the same Wi-Fi (not guest Wi-Fi).</label></li>
+        <li><label><input type="checkbox"> The server window (PhonePreview.exe / start.bat / Python terminal) is still running and shows no error.</label></li>
+        <li><label><input type="checkbox"> The server command includes <code>--bind 0.0.0.0</code>.</label></li>
+        <li><label><input type="checkbox"> I used the PC's Wi-Fi IPv4 address, not localhost.</label></li>
+        <li><label><input type="checkbox"> The router does not block devices from talking to each other.</label></li>
+        <li><label><input type="checkbox"> Windows network profile is Private, if appropriate for this trusted Wi-Fi.</label></li>
+      </ul>
+      <p class="muted small">If one-click detection cannot find your PC address, some browsers hide it on purpose — use <code>PhonePreview.exe</code> or <code>start.bat</code>, or run <code>ipconfig</code> and type the IPv4 manually. The QR library is bundled in this folder, so QR codes work without internet.</p>
+    </section>
+    <footer>Runs on your PC. One-click detection tests this PC's own addresses, common local ports, and the server's /__network helper. It does not change Windows settings.</footer>
+  </main>
+</body>
+</html>

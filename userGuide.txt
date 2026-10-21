@@ -1,0 +1,41 @@
+PHONE PREVIEW TOOL — USER GUIDE
+
+USE IT (easiest way)
+1. Drag your website folder onto PhonePreview.exe.
+   (No exe? Double-click start.bat if your PC has Python.)
+2. The browser opens by itself. Press "Detect server (one click)".
+3. Scan the QR code with your phone. Phone and PC must be on the same Wi-Fi.
+4. Close the black server window when you finish.
+
+USE IT (manual Python way)
+1. Keep all files in one folder. Double-click index.html (works offline).
+2. Start your website in its own terminal, e.g.:
+   python -m http.server 8080 --bind 0.0.0.0
+3. Click "Detect server (one click)".
+4. If the message shows a .local name, switch to PhonePreview.exe /
+   start.bat (auto-detects the IPv4) or run ipconfig and type it.
+
+WHAT THE MESSAGE MEANS
+- "Ready — ..."         Site found and reachable. Scan the QR.
+- "only answers on this PC"  Restart the server with --bind 0.0.0.0
+                         (or use PhonePreview.exe / start.bat).
+- "proxy or VPN answered"    Your PC's proxy fakes every test response. Scan
+                         the QR to test; disable the proxy/VPN if it fails.
+- "Also answered: ..."   Several network adapters found. If the phone fails,
+                         put the other address in the IP box and rescan.
+- ".local name"          Browser hid the real IP. Use PhonePreview.exe /
+                         start.bat, or run ipconfig and type the IPv4.
+- "no website answered"  Your server is not running. Start it, click Detect again.
+- "PC address could not be detected"  Use PhonePreview.exe / start.bat, or
+                         run ipconfig, type the IPv4 (e.g. 192.168.1.5) in
+                         the first box, then scan the QR.
+- "confirmed by the server"  Good news: serve.py reported the real IPv4.
+
+IF THE PHONE CANNOT OPEN THE URL
+- Confirm same Wi-Fi (not guest), server window still open.
+- URL must use the PC's Wi-Fi IP, never localhost/127.0.0.1.
+- First server start on Windows? Click "Allow access" in the firewall popup.
+- PC running a VPN or proxy (Clash, v2ray...)? Disable it and Detect again.
+- Still blocked? In PowerShell (Admin) run the firewall command in step 4.
+
+Manual details: README.txt
