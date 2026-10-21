@@ -1,5 +1,12 @@
 PHONE PREVIEW TOOL — WINDOWS 10/11
 
+DOWNLOAD THE EXE (easiest)
+- Direct link:
+  https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases/download/v1.0.0/PhonePreview.exe
+- Or open the Releases page and click PhonePreview.exe under Assets:
+  https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases
+- No Python needed. Just download, then follow QUICK START below.
+
 QUICK START (easiest, no tech knowledge)
 1. Get PhonePreview.exe (from the GitHub Releases page of this repo,
    or build it once with build_exe.bat on a PC that has Python).
