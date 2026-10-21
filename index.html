@@ -15,6 +15,7 @@
       <div class="eyebrow">LOCAL NETWORK HELPER</div>
       <h1>Phone Preview Tool</h1>
       <p>Open a website running on your Windows PC from your phone on the same Wi-Fi.</p>
+      <p class="muted small">Running the desktop app? Use <b>Open website folder…</b> in step 3 — no browser tab needed.</p>
     </header>
 
     <section class="card">
@@ -75,7 +76,8 @@
 
     <section class="card">
       <h2><span class="step">3</span> Start the website so your phone can reach it</h2>
-      <p><b>Easiest (no typing):</b> drag your website folder onto <code>PhonePreview.exe</code> (or <code>start.bat</code> if you have Python). The server starts on your PC's IPv4 address, the browser opens by itself, and Detect works in one click.</p>
+      <p><b>Easiest (no typing):</b> drag your website folder onto <code>PhonePreview.exe</code> (or <code>start.bat</code> if you have Python), or use the button below. The server starts on your PC's IPv4 address and Detect works in one click.</p>
+      <p><button id="pickFolderBtn" class="secondary" hidden>Open website folder…</button> <span id="pickFolderHint" class="muted small" hidden>In the app window you can also drag a folder anywhere onto this window.</span></p>
       <p><b>Manual option:</b> in the terminal, stop the old server with <kbd>Ctrl</kbd> + <kbd>C</kbd>, then restart it from the website's folder:</p>
       <div class="command">
         <code id="serverCommand">python -m http.server 8080 --bind 0.0.0.0</code>

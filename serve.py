@@ -149,6 +149,32 @@ def make_handler(root_dir, helper_dir):
     return LocalHandler
 
 
+def build_server(site_folder=None, port=None):
+    """Create a ThreadingHTTPServer. Returns (server, port, mode).
+
+    site_folder set -> site mode (website at /, helper at /__helper/, port 8080)
+    site_folder None -> helper mode (helper at /, port 8090)
+    """
+    helper_dir = resource_path()
+    if site_folder:
+        mode = "site"
+        real_port = port or 8080
+        root_dir = os.path.abspath(site_folder)
+        helper_mount = helper_dir
+    else:
+        mode = "helper"
+        real_port = port or 8090
+        root_dir = helper_dir
+        helper_mount = None
+
+    if not os.path.isfile(os.path.join(root_dir, "index.html")):
+        raise FileNotFoundError("no index.html found in: %s" % root_dir)
+
+    handler = make_handler(root_dir, helper_mount)
+    server = ThreadingHTTPServer(("0.0.0.0", real_port), handler)
+    return server, real_port, mode
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Phone Preview Tool local server",
@@ -171,31 +197,18 @@ def main():
             return 1
     else:
         site_folder = pick_site_folder(args.paths)
-    helper_dir = resource_path()
 
-    if site_folder:
-        mode = "site"
-        port = args.port or 8080
-        root_dir = site_folder
-        helper_mount = helper_dir
-    else:
-        mode = "helper"
-        port = args.port or 8090
-        root_dir = helper_dir
-        helper_mount = None
-
-    if not os.path.isfile(os.path.join(root_dir, "index.html")):
-        print("ERROR: no index.html found in: %s" % root_dir)
+    try:
+        server, port, mode = build_server(site_folder, args.port)
+    except FileNotFoundError as error:
+        print("ERROR: %s" % error)
         print("Pass the folder that contains your website's index.html.")
         return 1
-
-    handler = make_handler(root_dir, helper_mount)
-    try:
-        server = ThreadingHTTPServer(("0.0.0.0", port), handler)
     except OSError as error:
-        print("ERROR: port %d is already in use (%s)." % (port, error))
+        wanted = args.port or (8080 if site_folder else 8090)
+        print("ERROR: port %d is already in use (%s)." % (wanted, error))
         print("Stop the other server (Ctrl+C in its window) or pick another port:")
-        print("  python serve.py --port %d" % (port + 1 if port < 65535 else 80))
+        print("  python serve.py --port %d" % (wanted + 1 if wanted < 65535 else 80))
         return 1
 
     ipv4s = detect_lan_ipv4s()

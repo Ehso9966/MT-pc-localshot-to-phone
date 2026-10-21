@@ -1,19 +1,23 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller spec for PhonePreview.exe (onefile, stdlib only).
+# PyInstaller spec for PhonePreview.exe (onefile, windowed app).
 # Build:  python -m PyInstaller --clean --noconfirm PhonePreview.spec
-# Console stays ON so users can see errors and stop the server by closing the window.
+# console=False -> real desktop app window (pywebview / WebView2), no black box.
+
+from PyInstaller.utils.hooks import collect_all
+
+webview_datas, webview_binaries, webview_hiddenimports = collect_all("pywebview")
 
 a = Analysis(
-    ["serve.py"],
+    ["app.py"],
     pathex=[],
-    binaries=[],
+    binaries=webview_binaries,
     datas=[
         ("index.html", "."),
         ("style.css", "."),
         ("app.js", "."),
         ("qrcode.min.js", "."),
-    ],
-    hiddenimports=[],
+    ] + webview_datas,
+    hiddenimports=webview_hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -36,7 +40,7 @@ exe = EXE(
     upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,

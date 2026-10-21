@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 
-echo Installing / upgrading PyInstaller...
-py -3 -m pip install --upgrade pyinstaller
+echo Installing / upgrading PyInstaller and pywebview...
+py -3 -m pip install --upgrade pyinstaller pywebview
 if errorlevel 1 (
   echo.
   echo Could not install PyInstaller.

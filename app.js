@@ -324,6 +324,34 @@
     const target = $(button.dataset.copy);
     if (target) copyText(target.textContent, button);
   });
+
+  // Windowed app (PhonePreview.exe / app.py): show the native folder picker.
+  const pickFolderBtn = $("pickFolderBtn");
+  const pickFolderHint = $("pickFolderHint");
+  function setupAppMode() {
+    if (!window.pywebview || !window.pywebview.api || !window.pywebview.api.pick_folder) return;
+    pickFolderBtn.hidden = false;
+    pickFolderHint.hidden = false;
+    pickFolderBtn.addEventListener("click", async () => {
+      const original = pickFolderBtn.textContent;
+      pickFolderBtn.disabled = true;
+      pickFolderBtn.textContent = "Opening…";
+      try {
+        const result = await window.pywebview.api.pick_folder();
+        if (result && result.ok && result.url) {
+          window.location.href = result.url;
+          return;
+        }
+        if (result && result.error) ipError.textContent = result.error;
+      } catch {
+        ipError.textContent = "Could not open the folder picker.";
+      }
+      pickFolderBtn.disabled = false;
+      pickFolderBtn.textContent = original;
+    });
+  }
+  if (window.pywebview) setupAppMode();
+  else document.addEventListener("pywebviewready", setupAppMode, { once: true });
   ipInput.addEventListener("input", update);
   portInput.addEventListener("input", update);
   pathInput.addEventListener("input", update);

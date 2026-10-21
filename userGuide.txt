@@ -1,11 +1,13 @@
 PHONE PREVIEW TOOL — USER GUIDE
 
 USE IT (easiest way)
-1. Drag your website folder onto PhonePreview.exe.
-   (No exe? Double-click start.bat if your PC has Python.)
-2. The browser opens by itself. Press "Detect server (one click)".
-3. Scan the QR code with your phone. Phone and PC must be on the same Wi-Fi.
-4. Close the black server window when you finish.
+1. Double-click the "Phone Preview" desktop icon (or PhonePreview.exe).
+   A small app window opens — no browser tab.
+2. Click "Open website folder..." and choose the folder with your
+   website's index.html (or drag that folder onto the window).
+3. Press "Detect server (one click)".
+4. Scan the QR code with your phone. Phone and PC must be on the same Wi-Fi.
+5. Close the app window when you finish.
 
 USE IT (manual Python way)
 1. Keep all files in one folder. Double-click index.html (works offline).

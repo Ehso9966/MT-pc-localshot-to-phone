@@ -3,16 +3,16 @@ Pc က project တွေကို local မှာ testing လုပ်တဲ့�
 
 ## 📥 Download (Windows)
 
-**[⬇️ PhonePreview.exe — v1.0.0](https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases/download/v1.0.0/PhonePreview.exe)**
+**[⬇️ PhonePreview.exe — latest](https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases/latest)**
 
-> No Python needed. Download → drag your website folder onto it → scan the QR with your phone.
+> No Python needed. Double-click → app window opens → pick your website folder → scan the QR with your phone.
 
 All versions: **[Releases page](https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases)**
 
 ## Quick start
-1. Download `PhonePreview.exe` above.
-2. Drag your website folder (the one with `index.html`) onto the exe.
-3. The browser opens by itself — click **Detect server (one click)**.
-4. Scan the QR code with your phone (same Wi-Fi).
+1. Download `PhonePreview.exe` above (and optionally `install.bat` for a desktop icon).
+2. Double-click it — the **Phone Preview Tool** window opens (not a browser tab).
+3. Click **Open website folder…** (or drag the folder onto the window).
+4. Click **Detect server (one click)**, then scan the QR with your phone (same Wi-Fi).
 
 Full instructions: [README.txt](README.txt) · User messages: [userGuide.txt](userGuide.txt)

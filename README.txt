@@ -1,21 +1,28 @@
 PHONE PREVIEW TOOL — WINDOWS 10/11
 
 DOWNLOAD THE EXE (easiest)
-- Direct link:
-  https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases/download/v1.0.0/PhonePreview.exe
+- Direct link (always the newest build):
+  https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases/latest/download/PhonePreview.exe
 - Or open the Releases page and click PhonePreview.exe under Assets:
   https://github.com/Ehso9966/MT-pc-localshot-to-phone/releases
 - No Python needed. Just download, then follow QUICK START below.
 
-QUICK START (easiest, no tech knowledge)
-1. Get PhonePreview.exe (from the GitHub Releases page of this repo,
-   or build it once with build_exe.bat on a PC that has Python).
-2. Drag your website folder onto PhonePreview.exe.
-   (The folder must contain index.html.)
-3. The server starts, the browser opens by itself at your PC's IPv4.
-4. Press "Detect server (one click)" — the IP and port fill in automatically.
+QUICK START (desktop app, no browser window)
+1. Get PhonePreview.exe (Releases page, or build_exe.bat on a PC with Python).
+2. Double-click it — a "Phone Preview Tool" window opens (not a browser tab).
+3. Click "Open website folder..." and pick the folder that contains your
+   website's index.html (or drag that folder anywhere onto the window).
+4. Press "Detect server (one click)" — IP and port fill in automatically.
 5. Scan the QR code with your phone. Phone and PC must be on the same Wi-Fi.
-6. Close the black server window when you are done.
+6. Close the window when you are done.
+
+INSTALL AS SHORTCUTS (desktop icon + Start menu)
+1. Put install.bat next to PhonePreview.exe and double-click it.
+2. It copies the exe to %LOCALAPPDATA%\PhonePreview and creates:
+   - Desktop shortcut:   "Phone Preview"
+   - Start menu entry:   "Phone Preview"
+3. Double-click the desktop icon any time — that is the whole app.
+4. To remove: double-click uninstall.bat (or delete the shortcuts).
 
 FILES
 - PhonePreview.exe   one-file server + helper (no Python needed)
